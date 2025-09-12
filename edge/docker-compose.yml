@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto:/mosquitto
+
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:stable
+    restart: unless-stopped
+    privileged: true
+    shm_size: "256m"
+    depends_on:
+      - mosquitto
+    environment:
+      FRIGATE_RTSP_PASSWORD: ${FRIGATE_RTSP_PASSWORD}
+    devices:
+      - /dev/bus/usb:/dev/bus/usb   # Coral USB (optional; safe to leave)
+    volumes:
+      - ./frigate/config.yml:/config/config.yml:ro
+      - ./media:/media
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 100000000
+    ports:
+      - "5000:5000"   # Frigate UI
+      - "8554:8554"   # RTSP restream (optional)
+
+  sidecar:
+    build: ./sidecar
+    restart: unless-stopped
+    depends_on:
+      - frigate
+      - mosquitto
+    env_file: ../.env
+    ports:
+      - "8001:8001"
+
+  notifier:
+    build: ./notifier
+    restart: unless-stopped
+    depends_on:
+      - sidecar
+    env_file: ../.env
+    ports:
+      - "8002:8002"

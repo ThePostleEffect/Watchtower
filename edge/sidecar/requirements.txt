@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+paho-mqtt
+opencv-python-headless
+numpy
+ultralytics
+requests

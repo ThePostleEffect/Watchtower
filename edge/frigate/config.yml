@@ -1,0 +1,46 @@
+# Frigate config for Watchtower (minimal starter)
+# Docs: https://docs.frigate.video/
+
+mqtt:
+  host: mosquitto
+
+# Use Coral TPU if present (safe to keep even if you don't have one yet)
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+
+# Recording & clips (keep clips for short evidence windows)
+record:
+  enabled: true
+  retain:
+    days: 7
+
+clips:
+  enabled: true
+  retain:
+    default: 7
+
+# We only need 'person' tracking; the sidecar will check for weapons on person crops
+objects:
+  track:
+    - person
+
+# --- Cameras ---
+# Replace USER, PASS, CAM_IP with your camera creds/IP
+# Add more cameras by copying the cam1 block and renaming (cam2, cam3, ...)
+cameras:
+  cam1:
+    ffmpeg:
+      inputs:
+        - path: rtsp://USER:PASS@CAM_IP:554/Streaming/Channels/101
+          roles: [detect, clips]
+    detect:
+      width: 1920
+      height: 1080
+      fps: 12
+    # Focus detection on areas you care about (optional to start)
+    zones:
+      entry_zone:
+        # Example: bottom band of the frame (tweak for your scene)
+        coordinates: 0,800,1920,800,1920,1080,0,1080

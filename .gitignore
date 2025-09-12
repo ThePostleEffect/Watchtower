@@ -1,0 +1,70 @@
+# ---- OS / Editor junk ----
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# ---- Env & secrets ----
+.env
+.env.*
+secrets/
+*.key
+*.pem
+*.crt
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# ---- Model weights & datasets ----
+edge/sidecar/weights/
+datasets/
+checkpoints/
+
+# ---- Logs & temp ----
+*.log
+logs/
+tmp/
+temp/
+
+# ---- Docker / Frigate media (local recordings/clips) ----
+edge/media/
+edge/mosquitto/
+docker-data/
+tmpfs/
+
+# ---- Node/JS (optional console/mobile) ----
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.yarn-cache/
+.next/
+out/
+coverage/
+coverage.xml
+htmlcov/
+
+# ---- React Native / Mobile (optional) ----
+mobile/android/.gradle/
+mobile/android/build/
+mobile/ios/build/
+mobile/ios/Pods/
+*.keystore
+*.jks
+
+# ---- Storybook / dist (optional UI) ----
+storybook-static/
+*.map

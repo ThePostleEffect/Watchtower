@@ -1,5 +1,0 @@
-fastapi
-uvicorn
-requests
-python-telegram-bot==20.7
-pydantic
